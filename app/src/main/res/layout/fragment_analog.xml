@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeToRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.github.anastr.speedviewlib.DeluxeSpeedView
+                android:id="@+id/speedView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:sv_withTremble="true"
+                app:sv_marksNumber="10"
+                app:sv_markColor="@color/colorPrimary"
+                app:sv_tickNumber="11"
+                app:sv_maxSpeed="150"
+                app:sv_indicator="KiteIndicator"
+                app:sv_speedBackgroundColor="@android:color/transparent"
+
+                app:sv_indicatorColor="@color/md_theme_onPrimary"
+                app:sv_backgroundCircleColor="@color/md_theme_onSurface"
+                app:sv_indicatorLightColor="@color/md_theme_onPrimary"
+                app:sv_textColor="@color/md_theme_onPrimary"
+                app:sv_textSize="@dimen/dimen_20sp"
+                app:sv_centerCircleColor="@color/md_theme_onPrimary"
+                app:sv_speedometerWidth="@dimen/dimen_20dp_h"
+                app:sv_speedTextColor="@color/md_theme_onPrimary"
+                app:sv_unitTextColor="@color/md_theme_onPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/loadingAnimation"
+                android:layout_width="@dimen/dimen_120dp_w"
+                android:layout_height="@dimen/dimen_120dp_w"
+                android:elevation="@dimen/dimen_1dp_h"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_rawRes="@raw/lottie_loading"
+                app:lottie_repeatCount="1000"
+                tools:visibility="gone" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</layout>
