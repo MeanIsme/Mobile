@@ -1,4 +1,8 @@
 <resources>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="conversation">Conversation</string>
+    <string name="type_your_question_here">Type your question here</string>
+    <string name="voice">Voice</string>
+    <string name="send_message">Send message</string>
+    <string name="message_view">Message View</string>
 </resources>

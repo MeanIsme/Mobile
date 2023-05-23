@@ -88,10 +88,18 @@ dependencies {
     implementation(Depends.Libraries.multiViewAdapter_decoration_ext)
     implementation(Depends.Libraries.multiViewAdapter_diffUtil_ext)
 
+    implementation(platform(Depends.Libraries.openAiClientBOM))
+    implementation(Depends.Libraries.openAiKotlin)
+    runtimeOnly(Depends.Libraries.ktor)
+
+    implementation(Depends.Libraries.chat_kit)
+    implementation(Depends.Libraries.voice_dialog)
+    implementation(Depends.Libraries.markwon_lib)
+    implementation(Depends.Libraries.markwon_table_ext_lib)
+
     //app dependencies
     implementation(Depends.Libraries.voice_dialog)
     implementation("com.github.Jay-Goo:RangeSeekBar:3.0.0")
-    implementation(Depends.Libraries.speed_view) //https://github.com/anastr/SpeedView
 
     // room database
     implementation(Depends.Libraries.roomRuntime)

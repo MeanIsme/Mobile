@@ -1,4 +1,4 @@
-package app.mbl.hcmute.chatApp.ui.features.conversation.multiAdapter
+package app.mbl.hcmute.chatApp.ui.features.conversation.conversationsProvider
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="app.mbl.hcmute.chatApp.ui.features.chat.ChatViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chatArea"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false">
+
+        <ImageView
+            android:id="@+id/chatBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_launcher_background"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription" />
+
+        <app.mbl.hcmute.chatApp.ui.features.chat.chatKit.MessagesView
+            android:id="@+id/messages"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/message_view"
+            android:paddingBottom="@dimen/dimen_15dp_h"
+            app:layout_constraintBottom_toTopOf="@+id/typingArea"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:textAutoLink="all" />
+
+        <TextView
+            android:id="@+id/tvTyping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/top_corner_background"
+            android:paddingHorizontal="@dimen/dimen_10dp_h"
+            android:text="@{vm.typedText.length() + `/1000` }"
+            android:textColor="@color/md_theme_primary"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toTopOf="@+id/typingArea"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="TextContrastCheck"
+            tools:text="0/1000"
+            tools:visibility="visible" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/typingArea"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/dimen_0dp"
+            app:cardElevation="@dimen/dimen_5dp_w"
+            app:layout_constraintBottom_toTopOf="@id/bottomAds"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:strokeColor="@color/transparent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/dimen_100dp_h"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/dimen_10dp_w">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dimen_5dp_h"
+                        android:ems="10"
+                        android:hint="@string/type_your_question_here"
+                        android:importantForAutofill="no"
+                        android:inputType="textAutoComplete|textMultiLine"
+                        android:maxLength="2000"
+                        android:maxLines="3"
+                        android:minHeight="@dimen/dimen_48dp_h"
+                        android:onTextChanged="@{vm::onTypingTextChanged}"
+                        android:paddingHorizontal="@dimen/dimen_10dp_h"
+                        android:textColor="@color/md_theme_primary"
+                        android:textColorHint="#757575"
+
+                        tools:text="Hello, How are you?" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btnVoice"
+                    enableView="@{!vm.isBotTyping}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen_5dp_w"
+                    android:contentDescription="@string/voice"
+                    android:minWidth="@dimen/dimen_48dp_w"
+                    android:minHeight="@dimen/dimen_48dp_w"
+                    android:onClick="@{vm::onClick}"
+                    app:layout_constraintBottom_toBottomOf="@+id/etInput"
+                    app:layout_constraintEnd_toStartOf="@+id/btnSend"
+                    app:layout_constraintTop_toTopOf="@+id/etInput"
+                    app:srcCompat="@drawable/ic_voice"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btnSend"
+                    enableView="@{!vm.isBotTyping}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/md_theme_primary"
+                    android:contentDescription="@string/send_message"
+                    android:minWidth="@dimen/dimen_48dp_w"
+                    android:minHeight="@dimen/dimen_48dp_w"
+                    android:onClick="@{vm::onClick}"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnVoice"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/btnVoice"
+                    app:srcCompat="@drawable/ic_done" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnChatSetting"
+            android:layout_width="@dimen/dimen_40dp_w"
+            android:layout_height="@dimen/dimen_40dp_w"
+            android:layout_marginEnd="@dimen/dimen_5dp_w"
+            android:layout_marginBottom="@dimen/dimen_40dp_w"
+            android:onClick="@{vm::onClick}"
+            android:src="@drawable/common_ic_more"
+            app:fabCustomSize="@dimen/dimen_40dp_w"
+            app:layout_constraintBottom_toTopOf="@id/typingArea"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/md_theme_primary"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnCopy"
+            android:layout_width="@dimen/dimen_40dp_w"
+            android:layout_height="@dimen/dimen_40dp_w"
+            android:layout_marginEnd="@dimen/dimen_5dp_w"
+            android:layout_marginBottom="@dimen/dimen_40dp_w"
+            android:onClick="@{vm::onClick}"
+            android:src="@drawable/ic_copy"
+            android:visibility="gone"
+            app:fabCustomSize="@dimen/dimen_40dp_w"
+            app:layout_constraintBottom_toTopOf="@id/typingArea"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/md_theme_primary"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+
+        <FrameLayout
+            android:id="@+id/bottomAds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_height="@dimen/dimen_80dp_h"
+            tools:visibility="gone" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
