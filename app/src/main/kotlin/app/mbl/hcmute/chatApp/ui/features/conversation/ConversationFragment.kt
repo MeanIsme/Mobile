@@ -16,7 +16,6 @@ import app.mbl.hcmute.chatApp.ui.firstScreen.FirstScreenFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import mva3.adapter.ListSection
 import mva3.adapter.MultiViewAdapter
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -51,9 +50,13 @@ class ConversationFragment : BaseVmDbFragment<ConversationViewModel, FragmentCon
                     val direction = FirstScreenFragmentDirections.actionFirstScreenFragmentToChatAssistantFragment()
                     navigator.navigateTo(direction)
                 }
+
                 ConversationUiState.ScanDocumentClick -> {
                     showToast("Scan document")
+                    val direction = FirstScreenFragmentDirections.actionFirstScreenFragmentToScanFragment()
+                    navigator.navigateTo(direction)
                 }
+
                 else -> {}
             }
         }

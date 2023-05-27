@@ -3,11 +3,11 @@ package app.mbl.hcmute.chatApp.ui.main
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.PersistableBundle
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import app.mbl.hcmute.chatApp.base.preference.AppSettings
 import app.mbl.hcmute.chatApp.databinding.ActivityMainBinding
 import app.mbl.hcmute.chatApp.di.module.navigationModule.AppNavigator
 import app.mbl.hcmute.chatApp.util.extension.collectIn
@@ -34,11 +34,11 @@ class MainActivity : AppCompatActivity() {
         configureSplashScreen()
         setContentView(binding.root)
         setupUI()
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finish()
-            }
-        })
+//        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                finish()
+//            }
+//        })
     }
 
     private fun configureSplashScreen() {
@@ -78,10 +78,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupUI() {
         lifecycleScope.launch {
-            dataStoreManager.getSettingStream(app.mbl.hcmute.chatApp.base.preference.AppSettings.NIGHT_MODE).collectIn(this@MainActivity) { mode ->
-                if (mode != null) {
-                    setNightMode(mode)
-                }
+            dataStoreManager.getSettingStream(AppSettings.NIGHT_MODE).collectIn(this@MainActivity) { mode ->
+                if (mode != null) setNightMode(mode)
             }
         }
     }

@@ -40,6 +40,20 @@
             app:textAutoLink="all" />
 
         <TextView
+            android:id="@+id/tvConversationTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/md_theme_onPrimary"
+            android:text="@{vm.conversation.title == ``? @string/new_conversation : vm.conversation.title}"
+            android:gravity="center"
+            android:textSize="17sp"
+            android:padding="@dimen/dimen_5dp_h"
+            tools:text="@string/new_conversation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/tvTyping"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -90,14 +104,12 @@
                         android:maxLength="2000"
                         android:maxLines="3"
                         android:minHeight="@dimen/dimen_48dp_h"
-                        android:onTextChanged="@{vm::onTypingTextChanged}"
                         android:paddingHorizontal="@dimen/dimen_10dp_h"
+                        android:text="@={vm.typedText}"
                         android:textColor="@color/md_theme_primary"
                         android:textColorHint="#757575"
-
                         tools:text="Hello, How are you?" />
                 </com.google.android.material.textfield.TextInputLayout>
-
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/btnVoice"

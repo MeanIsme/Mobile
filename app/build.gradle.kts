@@ -82,6 +82,19 @@ tasks.withType<KotlinCompile> {
 }
 
 dependencies {
+    // Crop image lib
+    implementation(Depends.Libraries.imageCropper)
+
+    // Loading the cropped image into ImageView lib
+    implementation(Depends.Libraries.picasso)
+
+    //cameraX dependencies
+    implementation(Depends.Libraries.cameraCore)
+    implementation(Depends.Libraries.camera2)
+    implementation(Depends.Libraries.cameraLifecycle)
+    implementation(Depends.Libraries.cameraView)
+    implementation(Depends.Libraries.cameraExtensions)
+
     //chat app dependencies
     implementation(Depends.Libraries.multiViewAdapter)
     implementation(Depends.Libraries.multiViewAdapter_dataBinding_ext)
@@ -90,6 +103,9 @@ dependencies {
 
     implementation(platform(Depends.Libraries.openAiClientBOM))
     implementation(Depends.Libraries.openAiKotlin)
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     runtimeOnly(Depends.Libraries.ktor)
 
     implementation(Depends.Libraries.chat_kit)
@@ -151,7 +167,7 @@ dependencies {
     implementation(Depends.Libraries.splashScreen) // splash screen
 
     //other
-    debugImplementation(Depends.Libraries.leak_canary)
+//    debugImplementation(Depends.Libraries.leak_canary)
     debugImplementation(Depends.Libraries.chucker)
     releaseImplementation(Depends.Libraries.chucker_no_op)
     //    debugImplementation(Depends.Libraries.leak_canary) //todo: Enable later.

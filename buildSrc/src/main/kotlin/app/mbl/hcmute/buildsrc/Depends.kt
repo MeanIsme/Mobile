@@ -3,6 +3,13 @@ package app.mbl.hcmute.buildsrc
 object Depends {
 
     object Versions {
+        //ImageCropper version
+        const val imageCropperVersion = "4.5.0"
+        const val picassoVersion ="2.5.2"
+
+        //CameraX version
+        const val cameraXVersion = "1.1.0-beta01"
+
         //app lib version
         const val multiAdapterVersion = "3.0.0"
         const val openAiVersion = "3.2.3"
@@ -102,6 +109,17 @@ object Depends {
     }
 
     object Libraries {
+        //CropImage
+        const val imageCropper = "com.vanniktech:android-image-cropper:${Versions.imageCropperVersion}"
+        const val picasso = "com.squareup.picasso:picasso:${Versions.picassoVersion}"
+
+        //cameraX
+        const val cameraCore = "androidx.camera:camera-core:${Versions.cameraXVersion}"
+        const val camera2 = "androidx.camera:camera-camera2:${Versions.cameraXVersion}"
+        const val cameraLifecycle = "androidx.camera:camera-lifecycle:${Versions.cameraXVersion}"
+        const val cameraView = "androidx.camera:camera-view:${Versions.cameraXVersion}"
+        const val cameraExtensions = "androidx.camera:camera-extensions:${Versions.cameraXVersion}"
+
         //app lib
 
         // https://github.com/DevAhamed/MultiViewAdapter
