@@ -7,7 +7,10 @@ import androidx.multidex.MultiDexApplication
 import app.mbl.hcmute.chatApp.BuildConfig
 import app.mbl.hcmute.chatApp.data.local.datastore.DataStoreManager
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 

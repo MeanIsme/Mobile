@@ -3,20 +3,8 @@ package app.mbl.hcmute.buildsrc
 object Depends {
 
     object Versions {
-        //ImageCropper version
-        const val imageCropperVersion = "4.5.0"
-        const val picassoVersion ="2.5.2"
-
-        //CameraX version
-        const val cameraXVersion = "1.1.0-beta01"
-
         //app lib version
         const val multiAdapterVersion = "3.0.0"
-        const val openAiVersion = "3.2.3"
-        const val chatKit = "0.4.1"
-        const val voiceDialog = "1.1.0"
-        const val markWon = "4.6.2"
-
         // Splash screen
         const val splashScreen = "1.0.0"
 
@@ -28,6 +16,10 @@ object Depends {
 
         // Google billing
         const val billingKtx = "5.1.0"
+
+        //app lib
+        const val speedView = "1.6.0"
+        const val voiceDialog = "1.1.0"
 
         //ui
         const val autoBlurLib = "1.2.1"
@@ -109,17 +101,6 @@ object Depends {
     }
 
     object Libraries {
-        //CropImage
-        const val imageCropper = "com.vanniktech:android-image-cropper:${Versions.imageCropperVersion}"
-        const val picasso = "com.squareup.picasso:picasso:${Versions.picassoVersion}"
-
-        //cameraX
-        const val cameraCore = "androidx.camera:camera-core:${Versions.cameraXVersion}"
-        const val camera2 = "androidx.camera:camera-camera2:${Versions.cameraXVersion}"
-        const val cameraLifecycle = "androidx.camera:camera-lifecycle:${Versions.cameraXVersion}"
-        const val cameraView = "androidx.camera:camera-view:${Versions.cameraXVersion}"
-        const val cameraExtensions = "androidx.camera:camera-extensions:${Versions.cameraXVersion}"
-
         //app lib
 
         // https://github.com/DevAhamed/MultiViewAdapter
@@ -127,14 +108,6 @@ object Depends {
         const val multiViewAdapter_dataBinding_ext = "dev.ahamed.mva3:ext-databinding:${Versions.multiAdapterVersion}"
         const val multiViewAdapter_decoration_ext = "dev.ahamed.mva3:ext-decorator:${Versions.multiAdapterVersion}"
         const val multiViewAdapter_diffUtil_ext = "dev.ahamed.mva3:ext-diffutil-rx:${Versions.multiAdapterVersion}"
-        const val openAiClientBOM = "com.aallam.openai:openai-client-bom:${Versions.openAiVersion}"
-        const val openAiKotlin = "com.aallam.openai:openai-client"
-        const val ktor = "io.ktor:ktor-client-okhttp:2.3.0"
-        const val chat_kit = "com.github.stfalcon-studio:Chatkit:${Versions.chatKit}"
-        const val voice_dialog = "com.algolia.instantsearch:voice:${Versions.voiceDialog}"
-        const val markwon_lib = "io.noties.markwon:core:${Versions.markWon}"
-        const val markwon_table_ext_lib = "io.noties.markwon:ext-tables:${Versions.markWon}"
-
         //firebase
         const val fireBOM = "com.google.firebase:firebase-bom:${Versions.fireBomVersion}"
         const val firebaseAnalytic = "com.google.firebase:firebase-analytics-ktx"
@@ -155,6 +128,11 @@ object Depends {
 
         // google ads
         const val google_ads = "com.google.android.gms:play-services-ads:${Versions.googleAds}"
+
+        //app lib
+        const val speed_view = "com.github.anastr:speedviewlib:${Versions.speedView}"
+
+        const val voice_dialog = "com.algolia.instantsearch:voice:${Versions.voiceDialog}"
 
         //ui
         const val autoBlurView = "com.github.mmin18:realtimeblurview:${Versions.autoBlurLib}"
