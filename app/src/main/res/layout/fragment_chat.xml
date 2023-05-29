@@ -22,7 +22,7 @@
             android:id="@+id/chatBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/ic_launcher_background"
+            android:background="@drawable/chat_background"
             android:scaleType="centerCrop"
             tools:ignore="ContentDescription" />
 
@@ -98,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/dimen_5dp_h"
                         android:ems="10"
-                        android:hint="@string/type_your_question_here"
+                        android:hint="@string/edit_your_scanned_text_here"
                         android:importantForAutofill="no"
                         android:inputType="textAutoComplete|textMultiLine"
                         android:maxLength="2000"

@@ -7,30 +7,31 @@
 
         <variable
             name="vm"
-            type="app.mbl.hcmute.chatApp.ui.features.scan_cropper.SharedViewModel" />
+            type="app.mbl.hcmute.chatApp.ui.features.scan.SharedViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.features.scan_cropper.ScanFragment">
+        tools:context=".ui.features.scan.ScanFragment">
 
         <androidx.camera.view.PreviewView
             android:id="@+id/viewFinder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toTopOf="@+id/captureImage"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="-101dp" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCaptureImage"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:layout_width="@dimen/dimen_70dp_w"
+            android:layout_height="@dimen/dimen_70dp_w"
             android:elevation="2dp"
-            android:gravity="center"
-            android:text="@string/take_photo"
+            app:cornerRadius="@dimen/dimen_80dp_w"
+            android:background="@drawable/ic_photo_camera"
+            app:backgroundTint="@color/md_theme_onPrimary"
             android:onClick="@{vm::onClick}"
+            android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

@@ -8,6 +8,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import kotlin.math.abs
 
@@ -57,4 +60,11 @@ fun EditText.onDone(callback: () -> Unit) {
         }
         false
     }
+}
+
+fun Fragment.getNavigationResult(key: String = "result") =
+    findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(key)
+
+fun Fragment.setNavigationResult(result: Any, key: String = "result") {
+    findNavController().previousBackStackEntry?.savedStateHandle?.set(key, result)
 }

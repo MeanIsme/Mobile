@@ -1,4 +1,4 @@
-package app.mbl.hcmute.chatApp.ui.features.scan_cropper
+package app.mbl.hcmute.chatApp.ui.features.scan
 
 import app.mbl.hcmute.base.common.UIState
 

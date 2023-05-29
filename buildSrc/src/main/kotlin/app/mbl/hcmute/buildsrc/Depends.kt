@@ -3,9 +3,13 @@ package app.mbl.hcmute.buildsrc
 object Depends {
 
     object Versions {
+        //Mlkit version
+        const val mlkitTextRecognitionVersion = "19.0.0"
+        const val mlkitLanguageIdVersion = "17.0.4"
+        const val mlkitTranslateVersion = "17.0.1"
+
         //ImageCropper version
         const val imageCropperVersion = "4.5.0"
-        const val picassoVersion ="2.5.2"
 
         //CameraX version
         const val cameraXVersion = "1.1.0-beta01"
@@ -109,9 +113,13 @@ object Depends {
     }
 
     object Libraries {
+        //Mlkit
+        const val mlkitTextRecognition = "com.google.android.gms:play-services-mlkit-text-recognition:${Versions.mlkitTextRecognitionVersion}"
+        const val mlkitLanguageId = "com.google.mlkit:language-id:${Versions.mlkitLanguageIdVersion}"
+        const val mlkitTranslate = "com.google.mlkit:translate:${Versions.mlkitTranslateVersion}"
+
         //CropImage
         const val imageCropper = "com.vanniktech:android-image-cropper:${Versions.imageCropperVersion}"
-        const val picasso = "com.squareup.picasso:picasso:${Versions.picassoVersion}"
 
         //cameraX
         const val cameraCore = "androidx.camera:camera-core:${Versions.cameraXVersion}"

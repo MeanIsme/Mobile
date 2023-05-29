@@ -1,21 +1,25 @@
-package app.mbl.hcmute.chatApp.ui.features.scan_cropper
+package app.mbl.hcmute.chatApp.ui.features.scan
 
+import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.lifecycle.Observer
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import app.mbl.hcmute.base.common.BaseVmDbFragment
 import app.mbl.hcmute.chatApp.R
 import app.mbl.hcmute.chatApp.databinding.FragmentCropperBinding
 import app.mbl.hcmute.chatApp.di.module.navigationModule.AppNavigator
-import com.canhub.cropper.CropImageView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class CropperFragment : BaseVmDbFragment<SharedViewModel, FragmentCropperBinding>() {
+
+    private val args: CropperFragmentArgs by navArgs()
+
     override fun getLayoutId() = R.layout.fragment_cropper
-    override val viewModel: SharedViewModel
-        get() = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+
+    override val viewModel: SharedViewModel by activityViewModels()
 
     @Inject
     lateinit var navigator: AppNavigator
@@ -23,18 +27,18 @@ class CropperFragment : BaseVmDbFragment<SharedViewModel, FragmentCropperBinding
     override fun setUpViews(savedInstanceState: Bundle?) {
         super.setUpViews(savedInstanceState)
         binding.vm = viewModel
+        binding.cropImageView.setImageUriAsync(Uri.parse(args.imgUri))
     }
 
     override fun setUpObservers() {
         super.setUpObservers()
-        viewModel.photoUri.observe(viewLifecycleOwner, Observer {
-            binding.cropImageView.setImageUriAsync(it)
-        })
         viewModel.clickEvent.observe(viewLifecycleOwner) {
             when (it) {
                 is ImageUIState.CropImage -> {
-                    binding.cropImageView.getCroppedImage()?.let { it1 -> viewModel.setResultCrop(it1) }
-                    navigator.navigateTo(CropperFragmentDirections.actionCropperFragmentToResultCropFragment())
+                    binding.cropImageView.getCroppedImage()?.let { it1 ->
+                        viewModel.setCroppedImage(it1)
+                        navigator.navigateTo(CropperFragmentDirections.actionCropperFragmentToResultCropFragment())
+                    }
                 }
             }
         }

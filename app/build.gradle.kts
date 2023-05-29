@@ -82,11 +82,14 @@ tasks.withType<KotlinCompile> {
 }
 
 dependencies {
-    // Crop image lib
-    implementation(Depends.Libraries.imageCropper)
+    //ML Kit dependencies
+    implementation(Depends.Libraries.mlkitTextRecognition)
+    implementation(Depends.Libraries.mlkitLanguageId)
+    implementation(Depends.Libraries.mlkitTranslate)
 
-    // Loading the cropped image into ImageView lib
-    implementation(Depends.Libraries.picasso)
+
+    // Crop image dependencies
+    implementation(Depends.Libraries.imageCropper)
 
     //cameraX dependencies
     implementation(Depends.Libraries.cameraCore)

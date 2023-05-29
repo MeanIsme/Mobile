@@ -25,7 +25,7 @@
         tools:layout="@layout/fragment_chat"/>
     <fragment
         android:id="@+id/scanFragment"
-        android:name="app.mbl.hcmute.chatApp.ui.features.scan_cropper.ScanFragment"
+        android:name="app.mbl.hcmute.chatApp.ui.features.scan.ScanFragment"
         android:label="ScanFragment" >
         <action
             android:id="@+id/action_scanFragment_to_cropperFragment"
@@ -33,14 +33,17 @@
     </fragment>
     <fragment
         android:id="@+id/cropperFragment"
-        android:name="app.mbl.hcmute.chatApp.ui.features.scan_cropper.CropperFragment"
+        android:name="app.mbl.hcmute.chatApp.ui.features.scan.CropperFragment"
         android:label="CropperFragment" >
         <action
             android:id="@+id/action_cropperFragment_to_resultCropFragment"
             app:destination="@id/resultCropFragment" />
+        <argument
+            android:name="img_uri"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/resultCropFragment"
-        android:name="app.mbl.hcmute.chatApp.ui.features.scan_cropper.ResultCropFragment"
+        android:name="app.mbl.hcmute.chatApp.ui.features.scan.ResultCropFragment"
         android:label="ResultCropFragment" />
 </navigation>

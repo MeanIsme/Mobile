@@ -7,13 +7,12 @@
 
         <variable
             name="vm"
-            type="app.mbl.hcmute.chatApp.ui.features.scan_cropper.SharedViewModel" />
+            type="app.mbl.hcmute.chatApp.ui.features.scan.SharedViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="100dp"
         android:gravity="center"
         android:orientation="vertical"
         tools:context=".MainActivity">
@@ -30,6 +29,7 @@
             android:layout_height="wrap_content"
             android:onClick="@{vm::onClick}"
             android:text="Crop"
+            android:layout_marginBottom="@dimen/dimen_20dp_h"
             android:layout_gravity="center"/>
     </LinearLayout>
 </layout>
