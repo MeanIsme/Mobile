@@ -23,7 +23,6 @@ buildscript {
         classpath(app.mbl.hcmute.buildsrc.Depends.ClassPaths.navigation_safe_args_gradle_plugin)
         classpath(app.mbl.hcmute.buildsrc.Depends.ClassPaths.hilt_android_gradle_plugin)
         classpath(app.mbl.hcmute.buildsrc.Depends.ClassPaths.sonarqube_gradle_plugin)
-        classpath("com.android.tools.build:gradle:7.3.0")
     }
 }
 

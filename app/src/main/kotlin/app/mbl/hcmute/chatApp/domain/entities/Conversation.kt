@@ -8,7 +8,7 @@ import app.mbl.hcmute.chatApp.data.local.room.DbConstants
 data class Conversation(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val title: String,
+    var title: String = "",
     val image: String? = "",
     val userId: String = "",
     var isPrivate: Boolean = false,

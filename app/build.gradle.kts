@@ -82,16 +82,40 @@ tasks.withType<KotlinCompile> {
 }
 
 dependencies {
+    // Crop image lib
+    implementation(Depends.Libraries.imageCropper)
+
+    // Loading the cropped image into ImageView lib
+    implementation(Depends.Libraries.picasso)
+
+    //cameraX dependencies
+    implementation(Depends.Libraries.cameraCore)
+    implementation(Depends.Libraries.camera2)
+    implementation(Depends.Libraries.cameraLifecycle)
+    implementation(Depends.Libraries.cameraView)
+    implementation(Depends.Libraries.cameraExtensions)
+
     //chat app dependencies
     implementation(Depends.Libraries.multiViewAdapter)
     implementation(Depends.Libraries.multiViewAdapter_dataBinding_ext)
     implementation(Depends.Libraries.multiViewAdapter_decoration_ext)
     implementation(Depends.Libraries.multiViewAdapter_diffUtil_ext)
 
+    implementation(platform(Depends.Libraries.openAiClientBOM))
+    implementation(Depends.Libraries.openAiKotlin)
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    runtimeOnly(Depends.Libraries.ktor)
+
+    implementation(Depends.Libraries.chat_kit)
+    implementation(Depends.Libraries.voice_dialog)
+    implementation(Depends.Libraries.markwon_lib)
+    implementation(Depends.Libraries.markwon_table_ext_lib)
+
     //app dependencies
     implementation(Depends.Libraries.voice_dialog)
     implementation("com.github.Jay-Goo:RangeSeekBar:3.0.0")
-    implementation(Depends.Libraries.speed_view) //https://github.com/anastr/SpeedView
 
     // room database
     implementation(Depends.Libraries.roomRuntime)
@@ -143,7 +167,7 @@ dependencies {
     implementation(Depends.Libraries.splashScreen) // splash screen
 
     //other
-    debugImplementation(Depends.Libraries.leak_canary)
+//    debugImplementation(Depends.Libraries.leak_canary)
     debugImplementation(Depends.Libraries.chucker)
     releaseImplementation(Depends.Libraries.chucker_no_op)
     //    debugImplementation(Depends.Libraries.leak_canary) //todo: Enable later.
