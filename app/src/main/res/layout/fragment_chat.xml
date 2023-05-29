@@ -39,19 +39,36 @@
             app:layout_constraintVertical_bias="1.0"
             app:textAutoLink="all" />
 
-        <TextView
-            android:id="@+id/tvConversationTitle"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/md_theme_onPrimary"
-            android:text="@{vm.conversation.title == ``? @string/new_conversation : vm.conversation.title}"
-            android:gravity="center"
-            android:textSize="17sp"
-            android:padding="@dimen/dimen_5dp_h"
-            tools:text="@string/new_conversation"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <ImageView
+                android:id="@+id/btnBackToHome"
+                android:layout_width="@dimen/dimen_35dp_h"
+                android:layout_height="@dimen/dimen_35dp_h"
+                android:backgroundTint="@color/md_theme_inversePrimary"
+                android:src="@drawable/common_ic_back"
+                android:onClick="@{vm::onClick}" />
+
+            <TextView
+                android:id="@+id/tvConversationTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="@dimen/dimen_5dp_h"
+                android:text="@{vm.conversation.title == ``? @string/new_conversation : vm.conversation.title}"
+                android:textSize="17sp"
+                tools:text="@string/new_conversation" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvTyping"

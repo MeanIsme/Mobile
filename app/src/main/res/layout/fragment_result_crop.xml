@@ -3,6 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="app.mbl.hcmute.chatApp.ui.features.scan.SharedViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -46,7 +55,7 @@
                     android:layout_weight="1">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etSannedText"
+                        android:id="@+id/etScannedText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/dimen_5dp_h"
@@ -102,12 +111,12 @@
                     android:layout_weight="1">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etInput"
+                        android:id="@+id/etOptionScript"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/dimen_5dp_h"
                         android:ems="10"
-                        android:hint="@string/edit_your_scanned_text_here"
+                        android:hint="@string/add_your_option_here"
                         android:importantForAutofill="no"
                         android:inputType="textAutoComplete|textMultiLine"
                         android:maxLength="2000"
@@ -120,10 +129,12 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/btnSend"
+                    android:id="@+id/btnSendScanText"
+                    enableView="@{vm.isScanCompleted}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/md_theme_primary"
+                    android:onClick="@{vm::onClick}"
                     android:contentDescription="@string/send_message"
                     android:minWidth="@dimen/dimen_48dp_w"
                     android:minHeight="@dimen/dimen_48dp_w"

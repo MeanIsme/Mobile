@@ -47,7 +47,7 @@ class ConversationFragment : BaseVmDbFragment<ConversationViewModel, FragmentCon
             when (it) {
                 ConversationUiState.CreateConversationClick -> {
                     showToast("Start ChatGpt screen")
-                    val direction = FirstScreenFragmentDirections.actionFirstScreenFragmentToChatAssistantFragment()
+                    val direction = FirstScreenFragmentDirections.actionFirstScreenFragmentToChatAssistantFragment("")
                     navigator.navigateTo(direction)
                 }
 

@@ -4,16 +4,21 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import app.mbl.hcmute.base.common.BaseVmDbFragment
 import app.mbl.hcmute.chatApp.R
 import app.mbl.hcmute.chatApp.data.local.datastore.DataStoreManager
 import app.mbl.hcmute.chatApp.databinding.FragmentChatBinding
+import app.mbl.hcmute.chatApp.di.module.navigationModule.AppNavigator
 import app.mbl.hcmute.chatApp.domain.entities.*
 import app.mbl.hcmute.chatApp.ui.features.chat.chatKit.ChatAdapter
 import app.mbl.hcmute.chatApp.ui.features.chat.chatKit.MarkDownProvider
 import app.mbl.hcmute.chatApp.ui.features.chat.chatKit.MarkdownIncomingTextMessageViewHolder
+import app.mbl.hcmute.chatApp.ui.features.scan.CropperFragmentArgs
+import app.mbl.hcmute.chatApp.ui.features.scan.ImageUIState
 import com.aallam.openai.api.BetaOpenAI
 import com.aallam.openai.api.chat.ChatCompletionRequest
 import com.aallam.openai.api.chat.ChatMessage
@@ -48,6 +53,11 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
     @Inject
     lateinit var openAi: OpenAI
 
+    @Inject
+    lateinit var navigator: AppNavigator
+
+    private val args: ChatFragmentArgs by navArgs()
+
     override fun getLayoutId() = R.layout.fragment_chat
 
     override val viewModel: ChatViewModel by viewModels()
@@ -62,12 +72,21 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
         super.setUpViews(savedInstanceState)
         binding.vm = viewModel
         binding.messages.setAdapter(messagesAdapter)
-//        binding.etInput.setOnEditorActionListener { _, actionId, _ ->
-//            if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                viewModel.uiSingleEvent.postValue(ChatUiState.SendMessage)
-//                true
-//            } else false
-//        }
+
+        args.scanText.let {
+            if (it != "") {
+                showToast("Sending scan text to bot...")
+                viewModel.setTypedText(args.scanText)
+                viewModel.sendClickCommand(ChatUiState.SendMessage)
+            }
+        }
+        //set Done button on keyboard
+        /*        binding.etInput.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                viewModel.uiSingleEvent.postValue(ChatUiState.SendMessage)
+                true
+            } else false
+        }*/
     }
 
     private fun listen() {
@@ -111,6 +130,8 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
                 }
 
                 is ChatUiState.Voice -> listen()
+
+                is ChatUiState.BackToHome -> navigator.navigateTo(ChatFragmentDirections.actionChatAssistantFragmentToFirstScreenFragment())
             }
         }
     }

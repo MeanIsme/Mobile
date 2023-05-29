@@ -105,7 +105,7 @@ class ScanFragment : BaseVmDbFragment<SharedViewModel, FragmentScanBinding>() {
             override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                 val uri = output.savedUri ?: return
                 val msg = "Photo capture succeeded: ${output.savedUri}"
-                Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+                showToast(msg)
                 Timber.tag(TAG).d(msg)
                 navigator.navigateTo(ScanFragmentDirections.actionScanFragmentToCropperFragment(uri.toString()))
             }

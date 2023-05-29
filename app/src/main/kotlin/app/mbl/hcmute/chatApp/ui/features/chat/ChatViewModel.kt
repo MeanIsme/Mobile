@@ -30,6 +30,7 @@ class ChatViewModel @Inject constructor(private val dataStoreManager: DataStoreM
         when (view.id) {
             R.id.btnSend -> _clickEvent.postValue(ChatUiState.SendMessage)
             R.id.btnVoice -> _clickEvent.postValue(ChatUiState.Voice)
+            R.id.btnBackToHome -> _clickEvent.postValue(ChatUiState.BackToHome)
         }
     }
 

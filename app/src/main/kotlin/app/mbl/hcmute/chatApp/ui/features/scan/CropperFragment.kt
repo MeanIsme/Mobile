@@ -37,6 +37,7 @@ class CropperFragment : BaseVmDbFragment<SharedViewModel, FragmentCropperBinding
                 is ImageUIState.CropImage -> {
                     binding.cropImageView.getCroppedImage()?.let { it1 ->
                         viewModel.setCroppedImage(it1)
+                        showToast("Successful photo cropping! Please wait for text recognition...")
                         navigator.navigateTo(CropperFragmentDirections.actionCropperFragmentToResultCropFragment())
                     }
                 }
