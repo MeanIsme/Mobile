@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -13,7 +12,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import app.mbl.hcmute.base.common.BaseVmDbFragment
 import app.mbl.hcmute.chatApp.R
 import app.mbl.hcmute.chatApp.databinding.FragmentScanBinding
@@ -45,8 +43,9 @@ class ScanFragment : BaseVmDbFragment<SharedViewModel, FragmentScanBinding>() {
         if (allPermissionsGranted()) {
             startCamera()
         } else {
-            ActivityCompat.requestPermissions(requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+            requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
+
         binding.vm = viewModel
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
@@ -55,7 +54,7 @@ class ScanFragment : BaseVmDbFragment<SharedViewModel, FragmentScanBinding>() {
         super.setUpObservers()
         viewModel.clickEvent.observe(viewLifecycleOwner) {
             when (it) {
-                is ImageUIState.CaptureImage -> {
+                is ScanUiState.CaptureImage -> {
                     takePhoto()
                 }
             }
@@ -105,7 +104,6 @@ class ScanFragment : BaseVmDbFragment<SharedViewModel, FragmentScanBinding>() {
             override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                 val uri = output.savedUri ?: return
                 val msg = "Photo capture succeeded: ${output.savedUri}"
-                showToast(msg)
                 Timber.tag(TAG).d(msg)
                 navigator.navigateTo(ScanFragmentDirections.actionScanFragmentToCropperFragment(uri.toString()))
             }
@@ -124,7 +122,7 @@ class ScanFragment : BaseVmDbFragment<SharedViewModel, FragmentScanBinding>() {
                 startCamera()
             } else {
                 showToast("Permissions not granted by the user.")
-                requireActivity().finish()
+                navigator.getNavController().navigateUp()
             }
         }
     }

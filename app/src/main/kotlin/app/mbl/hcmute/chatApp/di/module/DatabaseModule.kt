@@ -2,8 +2,8 @@ package app.mbl.hcmute.chatApp.di.module
 
 import android.content.Context
 import androidx.room.Room
+import app.mbl.hcmute.chatApp.data.local.room.ChatDatabase
 import app.mbl.hcmute.chatApp.data.local.room.DbConstants.DATABASE_NAME
-import app.mbl.hcmute.chatApp.data.local.room.ProductDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,15 +16,9 @@ import javax.inject.Singleton
 object DatabaseModule {
     @Singleton
     @Provides
-    fun provideDatabase(
-        @ApplicationContext context: Context,
-    ) = Room.databaseBuilder(
-        context,
-        ProductDatabase::class.java,
-        DATABASE_NAME
-    ).build()
+    fun provideDatabase(@ApplicationContext context: Context, ) = Room.databaseBuilder(context, ChatDatabase::class.java, DATABASE_NAME).build()
 
     @Singleton
     @Provides
-    fun provideDao(database: ProductDatabase) = database.productDAO()
+    fun provideDao(database: ChatDatabase) = database.chatDao()
 }

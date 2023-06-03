@@ -44,7 +44,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:elevation="@dimen/dimen_100dp_h"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="@dimen/dimen_10dp_w">
@@ -97,7 +96,7 @@
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:elevation="@dimen/dimen_100dp_h"
+                android:elevation="@dimen/dimen_5dp_h"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="@dimen/dimen_10dp_w"
@@ -134,15 +133,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/md_theme_primary"
-                    android:onClick="@{vm::onClick}"
                     android:contentDescription="@string/send_message"
                     android:minWidth="@dimen/dimen_48dp_w"
                     android:minHeight="@dimen/dimen_48dp_w"
+                    android:onClick="@{vm::onClick}"
                     app:layout_constraintBottom_toBottomOf="@+id/btnVoice"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/btnVoice"
                     app:srcCompat="@drawable/ic_done" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <FrameLayout
+            android:id="@+id/commonProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/chat_background"
+            android:alpha="0.7"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            tools:visibility="gone"
+            android:elevation="@dimen/dimen_10dp_h">
+
+            <ProgressBar
+                style="@style/COMMON_PROGRESS_BAR"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/dimen_56dp_h"
+                android:layout_height="@dimen/dimen_56dp_h" />
+        </FrameLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

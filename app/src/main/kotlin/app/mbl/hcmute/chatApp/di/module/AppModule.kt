@@ -3,8 +3,8 @@ package app.mbl.hcmute.chatApp.di.module
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
-import app.mbl.hcmute.chatApp.data.network.common.BaseHttpClient
-import app.mbl.hcmute.chatApp.data.network.common.BaseRetrofit
+import app.mbl.hcmute.chatApp.ui.features.network.common.BaseHttpClient
+import app.mbl.hcmute.chatApp.ui.features.network.common.BaseRetrofit
 import app.mbl.hcmute.chatApp.domain.allowWrites
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.RetentionManager

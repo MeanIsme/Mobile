@@ -1,4 +1,4 @@
-package app.mbl.hcmute.chatApp.data.network.common
+package app.mbl.hcmute.chatApp.ui.features.network.common
 
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Observable

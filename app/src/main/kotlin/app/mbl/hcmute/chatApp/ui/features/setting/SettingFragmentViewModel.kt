@@ -29,8 +29,6 @@ class SettingFragmentViewModel @Inject constructor(private val dataStore: app.mb
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.termSetting -> uiSingleEvent.postValue(SettingUiState.TermClicked)
-            R.id.policySetting -> uiSingleEvent.postValue(SettingUiState.PolicyClicked)
         }
     }
 

@@ -2,6 +2,9 @@ package app.mbl.hcmute.chatApp.ui.firstScreen
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import app.mbl.hcmute.base.common.BaseVmDbFragment
 import app.mbl.hcmute.chatApp.R
@@ -21,9 +24,26 @@ class FirstScreenFragment : BaseVmDbFragment<FirstScreenViewModel, FragmentFirst
         binding.apply {
             viewPager.adapter = ViewPagerAdapter(this@FirstScreenFragment)
             viewPager.isUserInputEnabled = false
+            val tabIconColors = context?.let { ContextCompat.getColorStateList(it, R.color.tab_icon_colors) }
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                tab.text = getString(firstScreenTabItems[position])
+                val tabView = layoutInflater.inflate(R.layout.tab_item_layout, null)
+                val tabIcon = tabView.findViewById<ImageView>(R.id.tab_icon)
+                val tabText = tabView.findViewById<TextView>(R.id.tab_text)
+                tabIcon.setImageResource(getTabIcon(position))
+                tabText.text = getString(firstScreenTabItems[position])
+                tabIcon.imageTintList = tabIconColors
+                tab.customView = tabView
             }.attach()
+
+        }
+    }
+
+    private fun getTabIcon(position: Int): Int {
+        return when (position) {
+            0 -> R.drawable.baseline_view_list_24
+            1 -> R.drawable.baseline_favorite_24
+            2 -> R.drawable.baseline_settings_24
+            else -> R.drawable.ic_launcher_foreground
         }
     }
 

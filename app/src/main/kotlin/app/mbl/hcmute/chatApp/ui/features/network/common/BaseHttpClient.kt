@@ -1,4 +1,4 @@
-package app.mbl.hcmute.chatApp.data.network.common
+package app.mbl.hcmute.chatApp.ui.features.network.common
 
 import android.content.Context
 import app.mbl.hcmute.chatApp.BuildConfig.DEBUG

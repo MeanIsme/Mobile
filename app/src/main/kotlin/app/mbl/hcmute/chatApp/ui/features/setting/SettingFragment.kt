@@ -72,6 +72,7 @@ class SettingFragment : BaseVmDbFragment<SettingFragmentViewModel, FragmentSetti
                     val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(SettingConst.TERM_URL.settingValue))
                     startActivity(browserIntent)
                 }
+
                 is SettingUiState.PolicyClicked -> {
                     Timber.d("Start Policy screen")
                     Toast.makeText(context, "Start Policy screen", Toast.LENGTH_SHORT).show()

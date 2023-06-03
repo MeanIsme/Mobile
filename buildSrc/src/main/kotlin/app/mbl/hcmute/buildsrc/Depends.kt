@@ -142,6 +142,7 @@ object Depends {
         const val voice_dialog = "com.algolia.instantsearch:voice:${Versions.voiceDialog}"
         const val markwon_lib = "io.noties.markwon:core:${Versions.markWon}"
         const val markwon_table_ext_lib = "io.noties.markwon:ext-tables:${Versions.markWon}"
+        const val markwon_latex_ext_lib = "io.noties.markwon:ext-latex:${Versions.markWon}"
 
         //firebase
         const val fireBOM = "com.google.firebase:firebase-bom:${Versions.fireBomVersion}"

@@ -1,7 +1,7 @@
-package app.mbl.hcmute.chatApp.data.network.retrofit
+package app.mbl.hcmute.chatApp.ui.features.network.retrofit
 
-import app.mbl.hcmute.chatApp.data.network.common.BaseApiService
-import app.mbl.hcmute.chatApp.data.network.common.GenericNetworkResponse
+import app.mbl.hcmute.chatApp.ui.features.network.common.BaseApiService
+import app.mbl.hcmute.chatApp.ui.features.network.common.GenericNetworkResponse
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -115,6 +115,7 @@ dependencies {
     implementation(Depends.Libraries.voice_dialog)
     implementation(Depends.Libraries.markwon_lib)
     implementation(Depends.Libraries.markwon_table_ext_lib)
+    implementation(Depends.Libraries.markwon_latex_ext_lib)
 
     //app dependencies
     implementation(Depends.Libraries.voice_dialog)

@@ -2,6 +2,8 @@ package app.mbl.hcmute.chatApp.domain.entities
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
+import app.mbl.hcmute.chatApp.data.local.room.DbConstants.MESSAGE_TABLE
 import com.aallam.openai.api.BetaOpenAI
 import com.aallam.openai.api.chat.ChatMessage
 import com.aallam.openai.api.chat.ChatRole
@@ -10,8 +12,8 @@ import com.stfalcon.chatkit.commons.models.IUser
 import java.util.*
 
 @Entity(
-    tableName = "chat_message", foreignKeys =
-    [ForeignKey(
+    tableName = MESSAGE_TABLE,
+    foreignKeys = [ForeignKey(
         entity = Conversation::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("conversationId"),
@@ -19,12 +21,13 @@ import java.util.*
     )]
 )
 data class LocalChatMessage(
-    val messageId: String?,
+    @PrimaryKey()
+    val messageId: String,
     var messageContent: String?,
     val messageAuthor: Author,
     val createdTime: Date = Date(),
     //foreign key on Conversation class
-    val conversationId: Int = 0,
+    var conversationId: Long = -1,
     val type: String? = null,
 ) : IMessage {
     override fun getId() = messageId

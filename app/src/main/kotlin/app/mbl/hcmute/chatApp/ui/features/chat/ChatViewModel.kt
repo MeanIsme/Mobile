@@ -1,24 +1,59 @@
 package app.mbl.hcmute.chatApp.ui.features.chat
 
 import android.view.View
-import androidx.databinding.Bindable
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import app.mbl.hcmute.base.common.BaseViewModel
 import app.mbl.hcmute.chatApp.R
 import app.mbl.hcmute.chatApp.data.local.datastore.DataStoreManager
+import app.mbl.hcmute.chatApp.data.repository.ChatRepository
 import app.mbl.hcmute.chatApp.domain.entities.Conversation
 import app.mbl.hcmute.chatApp.domain.entities.LocalChatMessage
 import com.aallam.openai.client.OpenAI
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class ChatViewModel @Inject constructor(private val dataStoreManager: DataStoreManager, val openAi: OpenAI) : BaseViewModel() {
+class ChatViewModel @Inject constructor(
+    private val dataStoreManager: DataStoreManager,
+    val openAi: OpenAI,
+    private val chatRepository: ChatRepository,
+) : BaseViewModel() {
 
     val typedText = MutableStateFlow("")
     val isBotTyping = MutableStateFlow(false)
-    val conversation = MutableStateFlow(Conversation(timeStamp = System.currentTimeMillis()))
+    val conversation = MutableStateFlow(Conversation(id = System.nanoTime(), lastUpdated = System.currentTimeMillis()))
+
+
+    fun createConversation(conversation: Conversation) {
+        viewModelScope.launch(Dispatchers.IO) {
+            chatRepository.createConversation(conversation)
+        }
+    }
+
+    suspend fun getConversationById(convId: Long): Conversation {
+        return chatRepository.getConversation(convId)
+    }
+
+    fun updateConversation(data: Conversation) {
+        conversation.tryEmit(data)
+        viewModelScope.launch(Dispatchers.IO) {
+            chatRepository.updateConversation(data)
+        }
+    }
+
+    fun createMessage(message: LocalChatMessage) {
+        Timber.d("createMessage: $message")
+        viewModelScope.launch(Dispatchers.IO) {
+            chatRepository.createMessage(message)
+        }
+    }
+
+    fun getConversationMessages(id: Long) = chatRepository.getMessages(id)
 
     fun setTypedText(text: String) {
         if (text == typedText.value) return
@@ -37,6 +72,8 @@ class ChatViewModel @Inject constructor(private val dataStoreManager: DataStoreM
     fun sendClickCommand(command: ChatUiState) {
         _clickEvent.postValue(command)
     }
+
+
 
 //    fun onTypingTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 //        typedText.tryEmit(s.toString())

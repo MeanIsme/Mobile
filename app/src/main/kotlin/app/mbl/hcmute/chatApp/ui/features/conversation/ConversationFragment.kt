@@ -9,8 +9,6 @@ import app.mbl.hcmute.chatApp.R
 import app.mbl.hcmute.chatApp.databinding.FragmentConversationBinding
 import app.mbl.hcmute.chatApp.di.module.navigationModule.AppNavigator
 import app.mbl.hcmute.chatApp.domain.entities.Conversation
-import app.mbl.hcmute.chatApp.ui.features.conversation.Const.Companion.CONVERSATION_LIST
-import app.mbl.hcmute.chatApp.ui.features.conversation.conversationsProvider.BottomItemDecoration
 import app.mbl.hcmute.chatApp.ui.features.conversation.conversationsProvider.ConversationBinder
 import app.mbl.hcmute.chatApp.ui.firstScreen.FirstScreenFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,10 +16,11 @@ import mva3.adapter.ListSection
 import mva3.adapter.MultiViewAdapter
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
 class ConversationFragment : BaseVmDbFragment<ConversationViewModel, FragmentConversationBinding>() {
     private val conversationAdapter = MultiViewAdapter()
-
+    private val conversationSection = ListSection<Conversation>()
     override val viewModel: ConversationViewModel by viewModels()
     override fun getLayoutId() = R.layout.fragment_conversation
 
@@ -32,22 +31,28 @@ class ConversationFragment : BaseVmDbFragment<ConversationViewModel, FragmentCon
         super.setUpViews(savedInstanceState)
         binding.vm = viewModel
         binding.rvConversation.apply {
-            addItemDecoration(BottomItemDecoration())
+//            addItemDecoration(BottomItemDecoration())
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = conversationAdapter
-            conversationAdapter.registerItemBinders(ConversationBinder())
-            val conversationSection = ListSection<Conversation>().apply { addAll(CONVERSATION_LIST) }
+            conversationAdapter.registerItemBinders(ConversationBinder(onItemClick))
+            conversationAdapter.removeAllSections()
             conversationAdapter.addSection(conversationSection)
         }
     }
 
+    private val onItemClick: (id: Long) -> Unit = {
+        val direction = FirstScreenFragmentDirections.actionFirstScreenFragmentToChatAssistantFragment(null, it, ChatStartType.CONVERSATION.name)
+        navigator.navigateTo(direction)
+    }
+
     override fun setUpObservers() {
         super.setUpObservers()
+        observe(viewModel.conversations) { conversationSection.set(it) }
         observe(viewModel.uiSingleEvent) {
             when (it) {
                 ConversationUiState.CreateConversationClick -> {
                     showToast("Start ChatGpt screen")
-                    val direction = FirstScreenFragmentDirections.actionFirstScreenFragmentToChatAssistantFragment("")
+                    val direction = FirstScreenFragmentDirections.actionFirstScreenFragmentToChatAssistantFragment(null, -1, ChatStartType.NEW.name)
                     navigator.navigateTo(direction)
                 }
 

@@ -10,6 +10,8 @@ import app.mbl.hcmute.base.ext.logD
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
@@ -27,6 +29,10 @@ abstract class BaseViewModel : ViewModel() {
     val clickEvent: LiveData<UIState> get() = _clickEvent
 
     val handlerCoroutineException = CoroutineExceptionHandler { _, exception -> manageCoroutineException(exception) }
+
+    fun setCommonProgressBar(isShow: Boolean) {
+        showCommonProgressBar.postValue(isShow)
+    }
 
     open fun manageCoroutineException(exception: Any) {
         viewModelScope.launch {

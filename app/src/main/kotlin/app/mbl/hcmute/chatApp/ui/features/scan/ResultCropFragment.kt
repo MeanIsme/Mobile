@@ -2,18 +2,19 @@ package app.mbl.hcmute.chatApp.ui.features.scan
 
 import android.graphics.Bitmap
 import android.os.Bundle
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.ImageProxy
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import app.mbl.hcmute.base.common.BaseVmDbFragment
 import app.mbl.hcmute.chatApp.R
 import app.mbl.hcmute.chatApp.databinding.FragmentResultCropBinding
 import app.mbl.hcmute.chatApp.di.module.navigationModule.AppNavigator
-import app.mbl.hcmute.chatApp.ui.features.chat.ChatUiState
-import com.google.mlkit.codelab.translate.analyzer.TextAnalyzer
+import app.mbl.hcmute.chatApp.analyzer.TextAnalyzer
+import app.mbl.hcmute.chatApp.ui.features.conversation.ChatStartType
 import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -32,21 +33,26 @@ class ResultCropFragment : BaseVmDbFragment<SharedViewModel, FragmentResultCropB
 
     override fun setUpObservers() {
         super.setUpObservers()
-        viewModel.croppedImage.observe(viewLifecycleOwner, Observer {
+        viewModel.croppedImage.observe(viewLifecycleOwner) {
             binding.croppedResult.setImageBitmap(it)
             textRecognition(it)
-        })
-        viewModel.sourceText.observe(viewLifecycleOwner, Observer {
+            viewModel.setCommonProgressBar(true)
+        }
+        viewModel.sourceText.observe(viewLifecycleOwner) {
             binding.etScannedText.setText(it)
             viewModel.isScanCompleted.tryEmit(true)
-        })
+            viewModel.setCommonProgressBar(false)
+        }
 
         viewModel.clickEvent.observe(viewLifecycleOwner) {
             when (it) {
-                is ImageUIState.SendScanText -> {
+                is ScanUiState.SendScanText -> {
                     binding.etScannedText.text.let { it ->
-                        val message = binding.etOptionScript.text.toString() + ":\n" + it.toString()
-                        navigator.navigateTo(ResultCropFragmentDirections.actionResultCropFragmentToChatAssistantFragment(message))
+                        var message = it.toString()
+                        if (!binding.etOptionScript.text.toString().isEmpty()) {
+                            message = binding.etOptionScript.text.toString() + ":\n" + message
+                        }
+                        navigator.navigateTo(ResultCropFragmentDirections.actionResultCropFragmentToChatAssistantFragment(message, 0, ChatStartType.SCAN.name))
                     }
                 }
             }

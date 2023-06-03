@@ -4,7 +4,6 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -17,8 +16,7 @@ import app.mbl.hcmute.chatApp.domain.entities.*
 import app.mbl.hcmute.chatApp.ui.features.chat.chatKit.ChatAdapter
 import app.mbl.hcmute.chatApp.ui.features.chat.chatKit.MarkDownProvider
 import app.mbl.hcmute.chatApp.ui.features.chat.chatKit.MarkdownIncomingTextMessageViewHolder
-import app.mbl.hcmute.chatApp.ui.features.scan.CropperFragmentArgs
-import app.mbl.hcmute.chatApp.ui.features.scan.ImageUIState
+import app.mbl.hcmute.chatApp.ui.features.conversation.ChatStartType
 import com.aallam.openai.api.BetaOpenAI
 import com.aallam.openai.api.chat.ChatCompletionRequest
 import com.aallam.openai.api.chat.ChatMessage
@@ -39,7 +37,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 @OptIn(BetaOpenAI::class)
 class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
-    private val userAuthor: Author by lazy { Author(System.currentTimeMillis().toString(), "User", "") }
+    private val userAuthor: Author by lazy { Author("UserId", "User", "") }
     private val botAuthor: Author by lazy { Author(ChatBot.gptAssistant.id, ChatBot.gptAssistant.name, "") }
     private val messagesAdapter: ChatAdapter by lazy {
         val messageHolders = MessageHolders()
@@ -62,10 +60,33 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
 
     override val viewModel: ChatViewModel by viewModels()
 
+//    private var listMessage = mutableListOf<LocalChatMessage>()
+
     override fun initOnCreate(savedInstanceState: Bundle?) {
         super.initOnCreate(savedInstanceState)
         MarkDownProvider.initMarkDown(requireContext()) // add markdown support for TextView
-        messagesAdapter.addToStart(createLocalMessage(ChatBot.gptAssistant.welcomeMessage, botAuthor), true)
+        if (args.startType == ChatStartType.NEW.name || args.startType == ChatStartType.SCAN.name) {
+            viewModel.createConversation(viewModel.conversation.value)
+            val startMessage = createLocalMessage(ChatBot.gptAssistant.welcomeMessage, botAuthor)
+            messagesAdapter.addToStart(startMessage, true)
+            saveLocalMessage(startMessage)
+        } else {
+            viewModel.setCommonProgressBar(true)
+            lifecycleScope.launch(Dispatchers.IO) {
+                viewModel.conversation.tryEmit(viewModel.getConversationById(args.convId))
+
+                val listMessage: List<LocalChatMessage> = viewModel.getConversationMessages(args.convId)
+                Timber.d("listMessage: $listMessage")
+                listMessage.forEach {
+                    Timber.d("messageAuthor: ${it.messageAuthor}")
+                    withContext(Dispatchers.Main) {
+                        messagesAdapter.addToStart(it, true)
+                    }
+                }
+                delay(1000)
+                viewModel.setCommonProgressBar(false)
+            }
+        }
     }
 
     override fun setUpViews(savedInstanceState: Bundle?) {
@@ -73,12 +94,10 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
         binding.vm = viewModel
         binding.messages.setAdapter(messagesAdapter)
 
-        args.scanText.let {
-            if (it != "") {
-                showToast("Sending scan text to bot...")
-                viewModel.setTypedText(args.scanText)
-                viewModel.sendClickCommand(ChatUiState.SendMessage)
-            }
+        args.scanText?.let { scanText ->
+            showToast("Sending scan text to bot...")
+            viewModel.setTypedText(scanText)
+            viewModel.sendClickCommand(ChatUiState.SendMessage)
         }
         //set Done button on keyboard
         /*        binding.etInput.setOnEditorActionListener { _, actionId, _ ->
@@ -124,6 +143,7 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
                     if (message.isNotEmpty()) {
                         val localMessage = createLocalMessage(message, userAuthor)
                         messagesAdapter.addToStart(localMessage, true)
+                        saveLocalMessage(localMessage)
                         viewModel.setTypedText("")
                         sendMessage()
                     }
@@ -131,7 +151,7 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
 
                 is ChatUiState.Voice -> listen()
 
-                is ChatUiState.BackToHome -> navigator.navigateTo(ChatFragmentDirections.actionChatAssistantFragmentToFirstScreenFragment())
+                is ChatUiState.BackToHome -> navigator.getNavController().navigateUp()
             }
         }
     }
@@ -153,17 +173,22 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
                         withContext(Dispatchers.Main) { messagesAdapter.update(responseMessage) }
                     }
                 }
-                initConversationTitle()
+                saveLocalMessage(responseMessage)
+                getConversationTitle()
             } catch (ex: Exception) {
                 Timber.e(ex)
                 messagesAdapter.addToStart(createLocalMessage("Error: ${ex.message}", botAuthor), true)
             }
             viewModel.isBotTyping.tryEmit(false)
         }
-
     }
 
-    private suspend fun initConversationTitle() {
+    private fun saveLocalMessage(message: LocalChatMessage) {
+        viewModel.updateConversation(viewModel.conversation.value.copy(lastUpdated = System.currentTimeMillis()))
+        viewModel.createMessage(message.copy(conversationId = viewModel.conversation.value.id))
+    }
+
+    private suspend fun getConversationTitle(): String? {
         if (viewModel.conversation.value.title.isEmpty()) {
             val requestMessages = createSendMessages(2).toMutableList()
             requestMessages.add(ChatMessage(ChatRole.User, GET_CONVERSATION_TITLE_COMMAND))
@@ -171,9 +196,12 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
             val response = openAi.chatCompletion(ChatCompletionRequest(ModelId(ChatBot.CHAT_GPT_MODEL), requestMessages))
             response.choices[0].message?.content?.let { responseTitle ->
                 Timber.d("AAA response: $responseTitle")
-                viewModel.conversation.tryEmit(viewModel.conversation.value.copy(title = responseTitle.substringAfterLast(":").trim()))
+                viewModel.updateConversation(
+                    viewModel.conversation.value.copy(title = responseTitle.substringAfterLast(":").trim())
+                )
             }
         }
+        return null
     }
 
     private fun createSendMessages(count: Int = MAX_SEND_MESSAGE) = messagesAdapter.lastNumberItems(count).filter { it.item is LocalChatMessage }

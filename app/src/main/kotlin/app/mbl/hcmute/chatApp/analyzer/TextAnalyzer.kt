@@ -15,7 +15,7 @@
  *
  */
 
-package com.google.mlkit.codelab.translate.analyzer
+package app.mbl.hcmute.chatApp.analyzer
 
 import android.content.Context
 import android.graphics.Rect

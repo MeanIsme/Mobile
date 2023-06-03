@@ -1,7 +1,6 @@
 package app.mbl.hcmute.chatApp.ui.features.scan
 
 import android.net.Uri
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
@@ -34,7 +33,7 @@ class CropperFragment : BaseVmDbFragment<SharedViewModel, FragmentCropperBinding
         super.setUpObservers()
         viewModel.clickEvent.observe(viewLifecycleOwner) {
             when (it) {
-                is ImageUIState.CropImage -> {
+                is ScanUiState.CropImage -> {
                     binding.cropImageView.getCroppedImage()?.let { it1 ->
                         viewModel.setCroppedImage(it1)
                         showToast("Successful photo cropping! Please wait for text recognition...")

@@ -13,6 +13,10 @@ class ChatAdapter(senderId: String, messageHolders: MessageHolders? = MessageHol
         return items.reversed().takeLast(takeItemCount).toMutableList()
 //            .removeFirstChatIfNullOrNotChat()
     }
+
+    fun getItems(): MutableList<Wrapper<*>> {
+        return items
+    }
 }
 
 private fun <E : Any> MutableList<E>.removeFirstChatIfNullOrNotChat(): MutableList<E> {

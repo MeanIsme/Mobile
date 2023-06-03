@@ -25,10 +25,15 @@
         tools:layout="@layout/fragment_chat">
         <argument
             android:name="scan_text"
+            app:nullable="true"
             app:argType="string"/>
-        <action
-            android:id="@+id/action_chatAssistantFragment_to_firstScreenFragment"
-            app:destination="@id/firstScreenFragment" />
+        <argument
+            android:name="conv_id"
+            app:argType="long"/>
+        <argument
+            android:name="start_type"
+            app:nullable="true"
+            app:argType="string"/>
     </fragment>
     <fragment
         android:id="@+id/scanFragment"
@@ -58,6 +63,8 @@
         tools:layout="@layout/fragment_result_crop">
         <action
             android:id="@+id/action_resultCropFragment_to_chatAssistantFragment"
-            app:destination="@id/chatAssistantFragment" />
+            app:destination="@id/chatAssistantFragment"
+            app:popUpTo="@id/scanFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

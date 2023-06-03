@@ -65,7 +65,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:padding="@dimen/dimen_5dp_h"
-                android:text="@{vm.conversation.title == ``? @string/new_conversation : vm.conversation.title}"
+                android:text='@{vm.conversation.title.isEmpty() ? @string/new_conversation : vm.conversation.title}'
                 android:textSize="17sp"
                 tools:text="@string/new_conversation" />
         </LinearLayout>
@@ -200,6 +200,25 @@
             app:layout_constraintVertical_bias="1.0"
             tools:layout_height="@dimen/dimen_80dp_h"
             tools:visibility="gone" />
+
+        <FrameLayout
+            android:id="@+id/commonProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/chat_background"
+            android:alpha="0.7"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            tools:visibility="gone"
+            android:elevation="@dimen/dimen_10dp_h">
+
+            <ProgressBar
+                style="@style/COMMON_PROGRESS_BAR"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/dimen_56dp_h"
+                android:layout_height="@dimen/dimen_56dp_h" />
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

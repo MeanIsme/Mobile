@@ -36,12 +36,6 @@
                 android:elevation="@dimen/dimen_10dp_h"
                 android:orientation="horizontal">
 
-                <com.airbnb.lottie.LottieAnimationView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    app:lottie_autoPlay="true" />
-
                 <TextView
                     style="@style/TEXT_STYLE_BODY1"
                     android:layout_width="match_parent"
@@ -142,120 +136,6 @@
                             app:layout_constraintEnd_toEndOf="@+id/seekBar"
                             app:layout_constraintTop_toBottomOf="@+id/seekBar" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/storeSetting"
-                    style="@style/WAC_CARD"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dimen_5dp_w"
-                    android:onClick="@{vm::onClick}">
-
-                    <TextView
-                        style="@style/TEXT_STYLE_BODY2_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="@dimen/dimen_10dp_w"
-                        android:drawablePadding="@dimen/dimen_10dp_w"
-                        android:padding="@dimen/dimen_5dp_w"
-                        android:text="@string/store"
-                        app:drawableStartCompat="@drawable/ic_store" />
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/manageSubscriptionSetting"
-                    style="@style/WAC_CARD"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dimen_5dp_w"
-                    android:onClick="@{vm::onClick}">
-
-                    <TextView
-                        style="@style/TEXT_STYLE_BODY2_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="@dimen/dimen_10dp_w"
-                        android:drawablePadding="@dimen/dimen_10dp_w"
-                        android:padding="@dimen/dimen_5dp_w"
-                        android:text="@string/manage_subscription"
-                        app:drawableStartCompat="@drawable/ic_menu" />
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/shareAppSetting"
-                    style="@style/WAC_CARD"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dimen_5dp_w"
-                    android:onClick="@{vm::onClick}">
-
-                    <TextView
-                        style="@style/TEXT_STYLE_BODY2_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="@dimen/dimen_10dp_w"
-                        android:drawablePadding="@dimen/dimen_10dp_w"
-                        android:padding="@dimen/dimen_5dp_w"
-                        android:text="@string/share_app"
-                        app:drawableStartCompat="@drawable/ic_share" />
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/WAC_CARD"
-                    android:id="@+id/termSetting"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dimen_5dp_w"
-                    android:onClick="@{vm::onClick}">
-
-                    <TextView
-                        style="@style/TEXT_STYLE_BODY2_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="@dimen/dimen_10dp_w"
-                        android:drawablePadding="@dimen/dimen_10dp_w"
-                        android:padding="@dimen/dimen_5dp_w"
-                        android:text="@string/term"
-                        app:drawableStartCompat="@drawable/ic_term" />
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/WAC_CARD"
-                    android:id="@+id/policySetting"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dimen_5dp_w"
-                    android:onClick="@{vm::onClick}">
-
-                    <TextView
-                        style="@style/TEXT_STYLE_BODY2_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="@dimen/dimen_10dp_w"
-                        android:drawablePadding="@dimen/dimen_10dp_w"
-                        android:padding="@dimen/dimen_5dp_w"
-                        android:text="@string/privacy_policy"
-                        app:drawableStartCompat="@drawable/ic_privacy" />
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/rateUsSetting"
-                    style="@style/WAC_CARD"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dimen_5dp_w"
-                    android:onClick="@{vm::onClick}">
-
-                    <TextView
-                        style="@style/TEXT_STYLE_BODY2_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="@dimen/dimen_10dp_w"
-                        android:drawablePadding="@dimen/dimen_10dp_w"
-                        android:padding="@dimen/dimen_5dp_w"
-                        android:text="@string/rate_us"
-                        app:drawableStartCompat="@drawable/ic_rate" />
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
         </ScrollView>

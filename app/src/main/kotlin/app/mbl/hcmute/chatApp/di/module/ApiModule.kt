@@ -1,6 +1,6 @@
 package app.mbl.hcmute.chatApp.di.module
 
-import app.mbl.hcmute.chatApp.data.network.retrofit.ProductsApi
+import app.mbl.hcmute.chatApp.ui.features.network.retrofit.ProductsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

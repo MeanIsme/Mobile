@@ -1,6 +1,5 @@
 package app.mbl.hcmute.chatApp.ui.features.scan
 
-import android.Manifest
 import android.graphics.Bitmap
 import android.view.View
 import androidx.lifecycle.LiveData
@@ -8,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import app.mbl.hcmute.base.common.BaseViewModel
 import app.mbl.hcmute.base.common.UIState
 import app.mbl.hcmute.chatApp.R
-import app.mbl.hcmute.chatApp.ui.features.chat.ChatUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
@@ -27,9 +25,9 @@ class SharedViewModel @Inject constructor() : BaseViewModel() {
     override fun onClick(view: View) {
         super.onClick(view)
         when (view.id) {
-            R.id.btnCaptureImage -> _clickEvent.postValue(ImageUIState.CaptureImage)
-            R.id.btnCrop -> _clickEvent.postValue(ImageUIState.CropImage)
-            R.id.btnSendScanText -> _clickEvent.postValue(ImageUIState.SendScanText)
+            R.id.btnCaptureImage -> _clickEvent.postValue(ScanUiState.CaptureImage)
+            R.id.btnCrop -> _clickEvent.postValue(ScanUiState.CropImage)
+            R.id.btnSendScanText -> _clickEvent.postValue(ScanUiState.SendScanText)
         }
     }
 

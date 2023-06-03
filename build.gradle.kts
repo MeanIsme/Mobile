@@ -1,6 +1,6 @@
 plugins {
     id("org.sonarqube") version app.mbl.hcmute.buildsrc.Depends.Versions.sonarqubeVersion
-    detekt
+//    detekt
     id("com.github.ben-manes.versions") version app.mbl.hcmute.buildsrc.Depends.Versions.checkDependencyVersionsVersion
     id("com.osacky.doctor") version app.mbl.hcmute.buildsrc.Depends.Versions.gradleDoctorVersion
     id("com.autonomousapps.dependency-analysis") version app.mbl.hcmute.buildsrc.Depends.Versions.dependencyAnalysisVersion
