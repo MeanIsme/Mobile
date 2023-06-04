@@ -55,6 +55,7 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             messages.forEach {
                 val chatBookmark = ChatBookmark(
+                    id = it.id,
                     messageId = it.id,
                     conversationId = conversationId,
                     content = it.messageContent ?: "",

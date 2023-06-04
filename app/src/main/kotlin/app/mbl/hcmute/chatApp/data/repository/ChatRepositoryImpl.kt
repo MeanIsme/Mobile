@@ -57,7 +57,7 @@ class ChatRepositoryImpl @Inject constructor(private val chatDao: ChatDAO) : Cha
     }
 
     override fun deleteBookmark(bookmark: ChatBookmark) {
-        TODO("Not yet implemented")
+        chatDao.deleteBookmark(bookmark)
     }
 
 }

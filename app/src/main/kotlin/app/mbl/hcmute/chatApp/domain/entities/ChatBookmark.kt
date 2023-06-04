@@ -15,8 +15,8 @@ import app.mbl.hcmute.chatApp.data.local.room.DbConstants.BOOKMARK_TABLE
     )]
 )
 data class ChatBookmark(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey
+    val id: String,
     val messageId: String,
     val conversationId: Long,
     val content: String,

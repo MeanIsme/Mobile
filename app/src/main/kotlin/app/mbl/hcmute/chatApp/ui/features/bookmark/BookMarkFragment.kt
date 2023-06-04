@@ -9,9 +9,11 @@ import app.mbl.hcmute.chatApp.R
 import app.mbl.hcmute.chatApp.databinding.FragmentBookmarkBinding
 import app.mbl.hcmute.chatApp.di.module.navigationModule.AppNavigator
 import app.mbl.hcmute.chatApp.domain.entities.ChatBookmark
+import app.mbl.hcmute.chatApp.domain.entities.Conversation
 import app.mbl.hcmute.chatApp.ui.features.bookmark.bookmarksProvider.BookmarkBinder
 import app.mbl.hcmute.chatApp.ui.features.conversation.ChatStartType
 import app.mbl.hcmute.chatApp.ui.firstScreen.FirstScreenFragmentDirections
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import mva3.adapter.ListSection
 import mva3.adapter.MultiViewAdapter
@@ -37,6 +39,25 @@ class BookMarkFragment : BaseVmDbFragment<BookmarkViewModel, FragmentBookmarkBin
             bookmarkAdapter.registerItemBinders(BookmarkBinder(onItemClick))
             bookmarkAdapter.removeAllSections()
             bookmarkAdapter.addSection(bookmarkSection)
+        }
+        bookmarkAdapter.itemTouchHelper.attachToRecyclerView(binding.rvBookmark)
+        bookmarkSection.setSwipeToDismissListener { position, item ->
+            showUndoSnackBar(position, item)
+        }
+    }
+
+    private fun showUndoSnackBar(position: Int, deleteItem: ChatBookmark) {
+        var deleteBookmark = true
+        Snackbar.make(binding.root, "Will delete bookmark after 3 seconds!", Snackbar.LENGTH_SHORT).apply {
+            setAction(getString(R.string.undo)) {
+                deleteBookmark = false
+                bookmarkSection.add(position, deleteItem)
+            }.addCallback(object : Snackbar.Callback() {
+                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                    super.onDismissed(transientBottomBar, event)
+                    if (deleteBookmark) viewModel.deleteBookmark(deleteItem)
+                }
+            }).show()
         }
     }
 

@@ -30,7 +30,10 @@ import com.aallam.openai.client.OpenAI
 import com.stfalcon.chatkit.messages.MessageHolders
 import com.stfalcon.chatkit.messages.MessagesListAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -60,6 +63,9 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
     lateinit var navigator: AppNavigator
 
     private val args: ChatFragmentArgs by navArgs()
+
+    lateinit var jobResponse: Job
+    lateinit var responseMessage: LocalChatMessage
 
     override fun getLayoutId() = R.layout.fragment_chat
 
@@ -172,7 +178,14 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
                     messagesAdapter.unselectAllItems()
                 }
 
-                is ChatUiState.StopResponseMessage -> navigator.getNavController().navigateUp()
+                is ChatUiState.StopResponseMessage -> {
+                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                        jobResponse.cancel()
+                        saveLocalMessage(responseMessage)
+                        binding.btnStop.visibility = View.GONE
+                        viewModel.isBotTyping.tryEmit(false)
+                    }
+                }
             }
         }
     }
@@ -181,11 +194,11 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
         viewModel.isBotTyping.tryEmit(true)
         binding.btnStop.visibility = View.VISIBLE
         val requestMessages = createSendMessages()
-        val responseMessage = createLocalMessage("", botAuthor)
+        responseMessage = createLocalMessage("", botAuthor)
         messagesAdapter.addToStart(responseMessage, true) // add response message
 
         val chatCompletionRequest = ChatCompletionRequest(ModelId(ChatBot.CHAT_GPT_MODEL), requestMessages) //Init chat completion request
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+        jobResponse = viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             Timber.d("chatCompletionRequest: ${chatCompletionRequest.messages}")
             try {
                 openAi.chatCompletions(chatCompletionRequest).collect {
@@ -199,11 +212,13 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
                 getConversationTitle()
             } catch (ex: Exception) {
                 Timber.e(ex)
-                messagesAdapter.addToStart(createLocalMessage("Error: ${ex.message}", botAuthor), true)
+                withContext(Dispatchers.Main) {
+                    messagesAdapter.addToStart(createLocalMessage("Error: ${ex.message}", botAuthor), true)
+                }
             }
             viewModel.isBotTyping.tryEmit(false)
+            withContext(Dispatchers.Main) { binding.btnStop.visibility = View.GONE }
         }
-        binding.btnStop.visibility = View.GONE
     }
 
     private fun saveLocalMessage(message: LocalChatMessage) {
