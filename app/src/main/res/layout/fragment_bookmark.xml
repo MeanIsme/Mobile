@@ -14,21 +14,17 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardCornerRadius="@dimen/dimen_20dp_w"
-        app:strokeColor="@color/md_theme_primary">
+        android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBookmark"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/favorite"/>
-        </androidx.core.widget.NestedScrollView>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="0dp"
+            tools:listitem="@layout/conversation_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

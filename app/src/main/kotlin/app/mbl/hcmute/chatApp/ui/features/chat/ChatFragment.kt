@@ -2,8 +2,11 @@ package app.mbl.hcmute.chatApp.ui.features.chat
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.speech.RecognizerIntent
+import android.view.View
+import androidx.core.graphics.colorSpace
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -17,6 +20,7 @@ import app.mbl.hcmute.chatApp.ui.features.chat.chatKit.ChatAdapter
 import app.mbl.hcmute.chatApp.ui.features.chat.chatKit.MarkDownProvider
 import app.mbl.hcmute.chatApp.ui.features.chat.chatKit.MarkdownIncomingTextMessageViewHolder
 import app.mbl.hcmute.chatApp.ui.features.conversation.ChatStartType
+import app.mbl.hcmute.chatApp.util.extension.visible
 import com.aallam.openai.api.BetaOpenAI
 import com.aallam.openai.api.chat.ChatCompletionRequest
 import com.aallam.openai.api.chat.ChatMessage
@@ -24,6 +28,7 @@ import com.aallam.openai.api.chat.ChatRole
 import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
 import com.stfalcon.chatkit.messages.MessageHolders
+import com.stfalcon.chatkit.messages.MessagesListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -60,8 +65,6 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
 
     override val viewModel: ChatViewModel by viewModels()
 
-//    private var listMessage = mutableListOf<LocalChatMessage>()
-
     override fun initOnCreate(savedInstanceState: Bundle?) {
         super.initOnCreate(savedInstanceState)
         MarkDownProvider.initMarkDown(requireContext()) // add markdown support for TextView
@@ -72,15 +75,20 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
             saveLocalMessage(startMessage)
         } else {
             viewModel.setCommonProgressBar(true)
+            var bookmarkIndex = -1;
             lifecycleScope.launch(Dispatchers.IO) {
                 viewModel.conversation.tryEmit(viewModel.getConversationById(args.convId))
-
                 val listMessage: List<LocalChatMessage> = viewModel.getConversationMessages(args.convId)
                 Timber.d("listMessage: $listMessage")
-                listMessage.forEach {
-                    Timber.d("messageAuthor: ${it.messageAuthor}")
-                    withContext(Dispatchers.Main) {
-                        messagesAdapter.addToStart(it, true)
+                withContext(Dispatchers.Main) {
+                    listMessage.forEachIndexed { index, mess ->
+                        Timber.d("messageAuthor: ${mess.messageAuthor}")
+                        messagesAdapter.addToStart(mess, true)
+                        if (mess.id == args.messId) bookmarkIndex = index
+                    }
+                    if (args.messId != null) {
+                        val scrollPosition = messagesAdapter.itemCount - 2 - bookmarkIndex
+                        binding.messages.smoothScrollToPosition(scrollPosition)
                     }
                 }
                 delay(1000)
@@ -94,8 +102,15 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
         binding.vm = viewModel
         binding.messages.setAdapter(messagesAdapter)
 
+        messagesAdapter.enableSelectionMode { count ->
+            if (count > 0) {
+                binding.btnBookmark.visibility = View.VISIBLE
+            } else {
+                binding.btnBookmark.visibility = View.GONE
+            }
+        }
+
         args.scanText?.let { scanText ->
-            showToast("Sending scan text to bot...")
             viewModel.setTypedText(scanText)
             viewModel.sendClickCommand(ChatUiState.SendMessage)
         }
@@ -150,14 +165,21 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
                 }
 
                 is ChatUiState.Voice -> listen()
-
                 is ChatUiState.BackToHome -> navigator.getNavController().navigateUp()
+                is ChatUiState.AddToBookmark -> {
+                    viewModel.createBookmark(viewModel.conversation.value.id, messagesAdapter.selectedMessages)
+                    showToast("Added message to bookmark")
+                    messagesAdapter.unselectAllItems()
+                }
+
+                is ChatUiState.StopResponseMessage -> navigator.getNavController().navigateUp()
             }
         }
     }
 
     private fun sendMessage() {
         viewModel.isBotTyping.tryEmit(true)
+        binding.btnStop.visibility = View.VISIBLE
         val requestMessages = createSendMessages()
         val responseMessage = createLocalMessage("", botAuthor)
         messagesAdapter.addToStart(responseMessage, true) // add response message
@@ -181,6 +203,7 @@ class ChatFragment : BaseVmDbFragment<ChatViewModel, FragmentChatBinding>() {
             }
             viewModel.isBotTyping.tryEmit(false)
         }
+        binding.btnStop.visibility = View.GONE
     }
 
     private fun saveLocalMessage(message: LocalChatMessage) {

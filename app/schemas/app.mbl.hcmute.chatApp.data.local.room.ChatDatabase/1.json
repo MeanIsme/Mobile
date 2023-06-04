@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2189c9d2bb49ad472c97a50645b6ab9b",
+    "identityHash": "c18f7b5d019d4814623f6d2f49556e69",
     "entities": [
       {
         "tableName": "conversation_tb",
@@ -124,7 +124,7 @@
       },
       {
         "tableName": "bookmark_tb",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `messageId` INTEGER NOT NULL, `conversationId` INTEGER NOT NULL, `content` TEXT NOT NULL, `createdTime` INTEGER NOT NULL, FOREIGN KEY(`messageId`) REFERENCES `message_tb`(`messageId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `messageId` TEXT NOT NULL, `conversationId` INTEGER NOT NULL, `content` TEXT NOT NULL, `createdTime` INTEGER NOT NULL, FOREIGN KEY(`messageId`) REFERENCES `message_tb`(`messageId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -135,7 +135,7 @@
           {
             "fieldPath": "messageId",
             "columnName": "messageId",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -182,7 +182,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2189c9d2bb49ad472c97a50645b6ab9b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c18f7b5d019d4814623f6d2f49556e69')"
     ]
   }
 }

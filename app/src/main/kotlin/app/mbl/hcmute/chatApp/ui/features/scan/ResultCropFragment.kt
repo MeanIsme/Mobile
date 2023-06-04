@@ -52,7 +52,7 @@ class ResultCropFragment : BaseVmDbFragment<SharedViewModel, FragmentResultCropB
                         if (!binding.etOptionScript.text.toString().isEmpty()) {
                             message = binding.etOptionScript.text.toString() + ":\n" + message
                         }
-                        navigator.navigateTo(ResultCropFragmentDirections.actionResultCropFragmentToChatAssistantFragment(message, 0, ChatStartType.SCAN.name))
+                        navigator.navigateTo(ResultCropFragmentDirections.actionResultCropFragmentToChatAssistantFragment(message, 0, null, ChatStartType.SCAN.name))
                     }
                 }
             }

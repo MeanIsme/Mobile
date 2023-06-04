@@ -42,6 +42,9 @@ interface ChatDAO {
     @Query("SELECT * FROM $MESSAGE_TABLE WHERE conversationId = :conversationId")
     fun getMessages(conversationId: Long): List<LocalChatMessage>
 
+    @Query("SELECT * FROM $MESSAGE_TABLE WHERE messageId = :messId")
+    fun getMessageById(messId: String): LocalChatMessage
+
     //Bookmark
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun createBookmark(bookmark: ChatBookmark)

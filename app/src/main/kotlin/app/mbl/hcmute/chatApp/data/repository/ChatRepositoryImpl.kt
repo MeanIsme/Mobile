@@ -40,8 +40,12 @@ class ChatRepositoryImpl @Inject constructor(private val chatDao: ChatDAO) : Cha
         return chatDao.getMessages(conversationId)
     }
 
+    override fun getMessageById(messId: String): LocalChatMessage {
+        return chatDao.getMessageById(messId)
+    }
+
     override fun createBookmark(bookmark: ChatBookmark) {
-        TODO("Not yet implemented")
+        chatDao.createBookmark(bookmark)
     }
 
     override fun searchBookmark(searchKeyword: String): LiveData<List<ChatBookmark>> {
@@ -49,7 +53,7 @@ class ChatRepositoryImpl @Inject constructor(private val chatDao: ChatDAO) : Cha
     }
 
     override fun getBookmarks(): LiveData<List<ChatBookmark>> {
-        TODO("Not yet implemented")
+        return chatDao.getBookmarks()
     }
 
     override fun deleteBookmark(bookmark: ChatBookmark) {

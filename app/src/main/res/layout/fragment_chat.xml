@@ -35,7 +35,7 @@
             app:layout_constraintBottom_toTopOf="@+id/typingArea"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
             app:layout_constraintVertical_bias="1.0"
             app:textAutoLink="all" />
 
@@ -64,6 +64,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:padding="@dimen/dimen_5dp_h"
                 android:text='@{vm.conversation.title.isEmpty() ? @string/new_conversation : vm.conversation.title}'
                 android:textSize="17sp"
@@ -162,15 +164,16 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnChatSetting"
+            android:id="@+id/btnBookmark"
             android:layout_width="@dimen/dimen_40dp_w"
             android:layout_height="@dimen/dimen_40dp_w"
             android:layout_marginEnd="@dimen/dimen_5dp_w"
             android:layout_marginBottom="@dimen/dimen_40dp_w"
             android:onClick="@{vm::onClick}"
-            android:src="@drawable/common_ic_more"
+            android:src="@drawable/baseline_favorite_24"
+            android:visibility="gone"
+            tools:visibility="visible"
             app:fabCustomSize="@dimen/dimen_40dp_w"
             app:layout_constraintBottom_toTopOf="@id/typingArea"
             app:layout_constraintEnd_toEndOf="parent"
@@ -178,14 +181,15 @@
             tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnCopy"
+            android:id="@+id/btnStop"
             android:layout_width="@dimen/dimen_40dp_w"
             android:layout_height="@dimen/dimen_40dp_w"
             android:layout_marginEnd="@dimen/dimen_5dp_w"
             android:layout_marginBottom="@dimen/dimen_40dp_w"
             android:onClick="@{vm::onClick}"
-            android:src="@drawable/ic_copy"
             android:visibility="gone"
+            tools:visibility="visible"
+            android:src="@drawable/baseline_stop_24"
             app:fabCustomSize="@dimen/dimen_40dp_w"
             app:layout_constraintBottom_toTopOf="@id/typingArea"
             app:layout_constraintEnd_toEndOf="parent"

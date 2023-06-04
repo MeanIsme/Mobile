@@ -1,39 +1,39 @@
-package app.mbl.hcmute.chatApp.ui.features.conversation.conversationsProvider
+package app.mbl.hcmute.chatApp.ui.features.bookmark.bookmarksProvider
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
-import app.mbl.hcmute.chatApp.databinding.ConversationItemBinding
-import app.mbl.hcmute.chatApp.domain.entities.Conversation
+import app.mbl.hcmute.chatApp.databinding.BookmarkItemBinding
+import app.mbl.hcmute.chatApp.domain.entities.ChatBookmark
 import mva3.extension.DBItemBinder
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
+import java.util.Random
 
-class ConversationBinder(private val onItemClick: (id: Long) -> Unit) : DBItemBinder<Conversation, ConversationItemBinding>() {
+class BookmarkBinder(private val onItemClick: (convId: Long, messId: String) -> Unit) : DBItemBinder<ChatBookmark, BookmarkItemBinding>() {
 
     override fun canBindData(item: Any): Boolean {
-        return item is Conversation
+        return item is ChatBookmark
     }
 
-    override fun createBinding(parent: ViewGroup): ConversationItemBinding {
+    override fun createBinding(parent: ViewGroup): BookmarkItemBinding {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return ConversationItemBinding.inflate(layoutInflater, parent, false)
+        return BookmarkItemBinding.inflate(layoutInflater, parent, false)
     }
 
-    override fun bindModel(item: Conversation, binding: ConversationItemBinding) {
+    override fun bindModel(item: ChatBookmark, binding: BookmarkItemBinding) {
         binding.root.setOnClickListener {
 //            Toast.makeText(binding.root.context, "Start ChatGpt screen", Toast.LENGTH_SHORT).show()
-            onItemClick.invoke(item.id)
+            onItemClick.invoke(item.conversationId, item.messageId)
         }
         binding.apply {
-            tvTitle.text = item.title.ifEmpty { "New Conversation" }
+            tvTitle.text = item.content.ifEmpty { "New Bookmark" }
 //            lastMessage.text = item.lastMessage
-            tvTime.text = item.lastUpdated.mapToDateTime()
+            tvTime.text = item.createdTime.mapToDateTime()
 
             ivImage.setImageBitmap(tvTitle.text.toString().getFirstLetterBitmap())
         }

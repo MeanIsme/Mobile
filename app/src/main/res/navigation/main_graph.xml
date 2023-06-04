@@ -31,6 +31,10 @@
             android:name="conv_id"
             app:argType="long"/>
         <argument
+            android:name="mess_id"
+            app:nullable="true"
+            app:argType="string"/>
+        <argument
             android:name="start_type"
             app:nullable="true"
             app:argType="string"/>

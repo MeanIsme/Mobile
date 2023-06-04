@@ -17,6 +17,7 @@ interface ChatRepository {
     //Message
     suspend fun createMessage(message: LocalChatMessage)
     fun getMessages(conversationId: Long): List<LocalChatMessage>
+    fun getMessageById(messId: String): LocalChatMessage
 
     //Bookmark
     fun createBookmark(bookmark: ChatBookmark)
